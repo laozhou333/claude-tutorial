@@ -16,21 +16,33 @@ features:
   - icon: 🚀
     title: 从零开始
     details: 从 AI 基础概念讲起，零基础也能上手。一步步带你安装、配置、使用 Claude Code。
+    link: /zh/guide/ai-concepts
+    linkText: 开始阅读 →
   - icon: 📖
     title: 命令大全
     details: 40+ 斜杠命令、所有 CLI 参数、快捷键速查表。最全面的中文参考手册。
+    link: /zh/commands/slash-commands
+    linkText: 查看命令 →
   - icon: 🔧
     title: 核心功能
     details: CLAUDE.md、Hooks、Skills、MCP Servers、Agent Teams — 深度解析每个高级特性。
+    link: /zh/features/claude-md
+    linkText: 深入了解 →
   - icon: 💡
     title: 实战教程
     details: GitHub PR Review、搭建网站、Telegram Bot — 基于真实项目的手把手教学。
+    link: /zh/tutorials/github-review
+    linkText: 跟着做 →
   - icon: 🎯
     title: 进阶技巧
     details: Settings 深度配置、自定义 Skills 开发、性能优化、疑难排解。
+    link: /zh/advanced/settings-deep-dive
+    linkText: 进阶学习 →
   - icon: 🌍
     title: 中英双语
     details: 所有内容提供中英文版本，方便不同语言背景的开发者学习。
+    link: /en/
+    linkText: Switch to English →
 ---
 
 ## 关于作者
