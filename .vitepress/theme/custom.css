@@ -1,5 +1,6 @@
-/* ═══ Tech Theme for Learn Claude Code ═══ */
-/* Works with both light and dark modes */
+/* ═══════════════════════════════════════════════ */
+/* ═══ TECH SCI-FI THEME — Learn Claude Code ═══ */
+/* ═══════════════════════════════════════════════ */
 
 :root {
   --vp-c-brand-1: #7c3aed;
@@ -8,139 +9,398 @@
   --vp-c-brand-soft: rgba(124, 58, 237, 0.12);
   --vp-c-tip-1: #06b6d4;
   --vp-c-tip-soft: rgba(6, 182, 212, 0.12);
-
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(135deg, #7c3aed, #3b82f6, #06b6d4);
-  --vp-home-hero-image-background-image: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(6,182,212,0.15));
+  --vp-home-hero-name-background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 40%, #06b6d4 100%);
+  --vp-home-hero-image-background-image: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(6,182,212,0.2));
   --vp-home-hero-image-filter: blur(56px);
+  --neon-purple: #7c3aed;
+  --neon-blue: #3b82f6;
+  --neon-cyan: #06b6d4;
 }
 
-/* ═══ Buttons ═══ */
-.VPButton.brand {
-  background: linear-gradient(135deg, #7c3aed, #3b82f6) !important;
-  border: none !important;
-  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.25);
-  transition: all 0.3s ease !important;
-}
-
-.VPButton.brand:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4) !important;
-}
-
-.VPButton.alt {
-  border-color: rgba(124, 58, 237, 0.3) !important;
-}
-
-.VPButton.alt:hover {
-  border-color: rgba(124, 58, 237, 0.6) !important;
-}
-
-/* ═══ Feature Cards ═══ */
-.VPFeature {
-  border-radius: 16px !important;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.VPFeature:hover {
-  border-color: rgba(124, 58, 237, 0.3) !important;
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(124, 58, 237, 0.1) !important;
-}
-
-.VPFeature .icon {
-  font-size: 28px;
-}
-
-/* ═══ Hero glow orbs ═══ */
-.VPHero {
-  position: relative;
-}
-
-.VPHero::before {
+/* ═══ Animated Grid Background ═══ */
+body::before {
   content: '';
-  position: absolute;
-  top: -150px;
-  left: -80px;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
-  border-radius: 50%;
-  filter: blur(60px);
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
   pointer-events: none;
-  animation: orbFloat 20s ease-in-out infinite;
+  z-index: 0;
 }
 
-.VPHero::after {
-  content: '';
-  position: absolute;
-  bottom: -100px;
-  right: -80px;
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
-  border-radius: 50%;
-  filter: blur(60px);
-  pointer-events: none;
-  animation: orbFloat 20s ease-in-out infinite reverse;
+.dark body::before {
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.07) 1px, transparent 1px);
 }
 
-@keyframes orbFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -20px) scale(1.05); }
-  66% { transform: translate(-20px, 30px) scale(0.95); }
+/* ═══ Navbar — Glass + Glow Border ═══ */
+.VPNav,
+.VPNavBar {
+  backdrop-filter: blur(20px) saturate(1.5) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.5) !important;
 }
 
-/* ═══ Content headings ═══ */
-.vp-doc h1 {
-  background: linear-gradient(135deg, var(--vp-c-text-1), var(--vp-c-brand-1));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.VPNavBar.has-sidebar .divider {
+  background: linear-gradient(90deg, transparent, var(--neon-purple), var(--neon-cyan), transparent) !important;
+  height: 1px !important;
+  opacity: 0.3;
 }
 
-/* ═══ Navbar glow ═══ */
 .VPNavBar .title {
   background: linear-gradient(135deg, #7c3aed, #06b6d4);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
+  font-size: 16px !important;
+  letter-spacing: 0.5px;
 }
 
-/* ═══ Sidebar active glow ═══ */
+/* Nav link hover glow */
+.VPNavBarMenuLink .text:hover {
+  color: var(--neon-purple) !important;
+  text-shadow: 0 0 12px rgba(124, 58, 237, 0.5);
+}
+
+/* ═══ Hero — Dramatic Sci-Fi ═══ */
+.VPHero {
+  position: relative;
+  overflow: visible;
+}
+
+.VPHero .name {
+  font-size: 52px !important;
+  letter-spacing: -0.03em;
+  line-height: 1.1 !important;
+  animation: heroGlow 4s ease-in-out infinite;
+}
+
+@keyframes heroGlow {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.3)); }
+  50% { filter: drop-shadow(0 0 40px rgba(124, 58, 237, 0.5)); }
+}
+
+.VPHero .text {
+  font-size: 20px !important;
+  opacity: 0.85;
+}
+
+.VPHero .tagline {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace !important;
+  font-size: 13px !important;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+}
+
+/* Floating orbs */
+.VPHero::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  left: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: orbFloat 25s ease-in-out infinite;
+}
+
+.VPHero::after {
+  content: '';
+  position: absolute;
+  bottom: -200px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: orbFloat 25s ease-in-out infinite reverse;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(40px, -30px) scale(1.08); }
+  50% { transform: translate(-30px, 40px) scale(0.92); }
+  75% { transform: translate(30px, 30px) scale(1.05); }
+}
+
+/* ═══ Buttons — Neon Glow ═══ */
+.VPButton.brand {
+  background: linear-gradient(135deg, #7c3aed, #3b82f6) !important;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.VPButton.brand::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #7c3aed, #3b82f6, #06b6d4);
+  z-index: -1;
+  filter: blur(12px);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.VPButton.brand:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5), 0 0 60px rgba(124, 58, 237, 0.15) !important;
+}
+
+.VPButton.brand:hover::after { opacity: 1; }
+
+.VPButton.alt {
+  border: 1px solid rgba(124, 58, 237, 0.25) !important;
+  transition: all 0.3s !important;
+}
+
+.VPButton.alt:hover {
+  border-color: var(--neon-purple) !important;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.15), inset 0 0 20px rgba(124, 58, 237, 0.05) !important;
+  color: var(--neon-purple) !important;
+}
+
+/* ═══ Feature Cards — HUD Style ═══ */
+.VPFeature {
+  border-radius: 16px !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* HUD corner accents */
+.VPFeature::before,
+.VPFeature::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: rgba(124, 58, 237, 0.25);
+  border-style: solid;
+  transition: all 0.4s;
+  z-index: 1;
+}
+
+.VPFeature::before {
+  top: 0; left: 0;
+  border-width: 2px 0 0 2px;
+  border-radius: 16px 0 0 0;
+}
+
+.VPFeature::after {
+  bottom: 0; right: 0;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 16px 0;
+}
+
+.VPFeature:hover::before,
+.VPFeature:hover::after {
+  border-color: rgba(124, 58, 237, 0.7);
+  width: 30px;
+  height: 30px;
+}
+
+.VPFeature:hover {
+  border-color: rgba(124, 58, 237, 0.3) !important;
+  transform: translateY(-6px) !important;
+  box-shadow: 0 20px 50px rgba(124, 58, 237, 0.12), 0 0 0 1px rgba(124, 58, 237, 0.1) !important;
+}
+
+.dark .VPFeature:hover {
+  box-shadow: 0 20px 50px rgba(124, 58, 237, 0.2), 0 0 30px rgba(124, 58, 237, 0.05) !important;
+}
+
+/* Scanline on card hover */
+.VPFeature:hover .box::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.4), transparent);
+  animation: scanCard 2s linear infinite;
+}
+
+@keyframes scanCard {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+.VPFeature .icon {
+  font-size: 30px !important;
+  filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.3));
+  transition: all 0.4s;
+}
+
+.VPFeature:hover .icon {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 16px rgba(124, 58, 237, 0.6));
+}
+
+/* ═══ Sidebar — Tech Style ═══ */
 .VPSidebarItem.is-active > .item > .link > .text {
-  color: var(--vp-c-brand-1) !important;
+  color: var(--neon-purple) !important;
+  text-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
 }
 
-/* ═══ Code blocks ═══ */
+.VPSidebarItem .link:hover .text {
+  color: var(--neon-purple) !important;
+}
+
+/* Active indicator bar */
+.VPSidebarItem.is-active > .item .indicator {
+  background: linear-gradient(to bottom, var(--neon-purple), var(--neon-cyan)) !important;
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
+}
+
+/* ═══ Content — Enhanced Typography ═══ */
+.vp-doc h1 {
+  background: linear-gradient(135deg, var(--vp-c-text-1), var(--neon-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.vp-doc h2 {
+  border-top: 1px solid var(--vp-c-divider);
+  padding-top: 24px;
+  position: relative;
+}
+
+.vp-doc h2::before {
+  content: '//';
+  color: var(--neon-purple);
+  opacity: 0.4;
+  margin-right: 8px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-weight: 400;
+}
+
+.vp-doc a {
+  text-decoration-color: rgba(124, 58, 237, 0.3) !important;
+}
+
+.vp-doc a:hover {
+  color: var(--neon-purple) !important;
+  text-shadow: 0 0 8px rgba(124, 58, 237, 0.3);
+}
+
+/* ═══ Code Blocks — Terminal Style ═══ */
 .vp-doc div[class*='language-'] {
   border-radius: 12px !important;
+  border: 1px solid rgba(124, 58, 237, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* ═══ Scrollbar ═══ */
+.dark .vp-doc div[class*='language-'] {
+  border-color: rgba(124, 58, 237, 0.15) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(124, 58, 237, 0.05);
+}
+
+/* ═══ Tables — Clean Tech ═══ */
+.vp-doc tr:nth-child(2n) {
+  background: var(--vp-c-brand-soft) !important;
+}
+
+.vp-doc th {
+  font-weight: 700;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.85em;
+  letter-spacing: 0.03em;
+}
+
+/* ═══ Custom Containers — Neon Borders ═══ */
+.vp-doc .custom-block {
+  border-radius: 12px !important;
+  border-left-width: 3px !important;
+}
+
+.vp-doc .custom-block.tip {
+  border-left-color: var(--neon-cyan) !important;
+}
+
+.vp-doc .custom-block.warning {
+  border-left-color: #fbbf24 !important;
+}
+
+.vp-doc .custom-block.danger {
+  border-left-color: #ef4444 !important;
+}
+
+.vp-doc .custom-block.info {
+  border-left-color: var(--neon-blue) !important;
+}
+
+/* ═══ Page Footer Nav — Glow Hover ═══ */
+.VPDocFooter .prev-next .pager-link {
+  border-radius: 12px !important;
+  transition: all 0.3s !important;
+}
+
+.VPDocFooter .prev-next .pager-link:hover {
+  border-color: rgba(124, 58, 237, 0.3) !important;
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ═══ Scrollbar — Gradient ═══ */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #7c3aed, #3b82f6); border-radius: 3px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #7c3aed, #3b82f6, #06b6d4);
+  border-radius: 3px;
+}
 
 /* ═══ Selection ═══ */
 ::selection { background: rgba(124, 58, 237, 0.25); }
 
-/* ═══ Page nav hover ═══ */
-.VPDocFooter .prev-next .pager-link:hover {
-  border-color: rgba(124, 58, 237, 0.3) !important;
-  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.08);
+/* ═══ Search Box ═══ */
+.VPLocalSearchBox .shell {
+  border-radius: 16px !important;
+  border: 1px solid rgba(124, 58, 237, 0.15) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(124, 58, 237, 0.05) !important;
 }
 
-/* ═══ Dark mode enhancements ═══ */
-.dark .VPFeature:hover {
-  box-shadow: 0 16px 40px rgba(124, 58, 237, 0.15) !important;
+/* ═══ Footer ═══ */
+.VPFooter {
+  border-top: 1px solid rgba(124, 58, 237, 0.1) !important;
+}
+
+.VPFooter .message {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+}
+
+/* ═══ Dark Mode Extra Glow ═══ */
+.dark .VPHero .name {
+  animation: heroGlowDark 4s ease-in-out infinite;
+}
+
+@keyframes heroGlowDark {
+  0%, 100% { filter: drop-shadow(0 0 30px rgba(124, 58, 237, 0.4)); }
+  50% { filter: drop-shadow(0 0 60px rgba(124, 58, 237, 0.7)); }
 }
 
 .dark .VPNav {
-  border-bottom-color: rgba(124, 58, 237, 0.1) !important;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.1) !important;
 }
 
-.dark .VPSidebar {
-  border-right-color: rgba(124, 58, 237, 0.08) !important;
+/* ═══ Mobile ═══ */
+@media (max-width: 768px) {
+  .VPHero .name { font-size: 36px !important; }
+  #techParticles { opacity: 0.2 !important; }
 }
