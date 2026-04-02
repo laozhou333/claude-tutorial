@@ -1,0 +1,15 @@
+{
+  "name": "claude-tutorial",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "description": "Learn Claude Code - From Zero to Hero",
+  "author": "Asher Zhou",
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}
