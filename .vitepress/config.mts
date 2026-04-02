@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'Learn Claude Code',
   description: 'From Zero to Hero — Master AI Development with Claude Code',
+  appearance: 'dark',
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
