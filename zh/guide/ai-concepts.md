@@ -138,6 +138,18 @@ Claude Code 不仅能回答问题，还能：
 - 🔧 使用 Git 进行版本控制
 - 🌐 调用外部工具（通过 MCP）
 
+```mermaid
+graph LR
+    You["🧑 You"] -->|"Describe Goal"| Agent["🤖 Claude Code"]
+    Agent -->|"Think & Plan"| LLM["🧠 Claude LLM"]
+    LLM -->|"Decide Action"| Agent
+    Agent -->|"Read/Write"| Files["📁 Files"]
+    Agent -->|"Execute"| Terminal["💻 Terminal"]
+    Agent -->|"Search"| Code["🔍 Codebase"]
+    Agent -->|"Version Control"| Git["🔧 Git"]
+    Agent -->|"External APIs"| MCP["🌐 MCP Servers"]
+```
+
 ::: tip Agent 的核心价值
 Agent 的关键在于**自主性**。你不需要一步一步指导它，只需要描述目标，它会自己找到实现路径。这就是 Claude Code 与普通代码补全工具的本质区别。
 :::
@@ -223,6 +235,47 @@ Token (思考单位)  Agent (执行能力)
 3. **LLM** 以 **Token** 为单位思考和生成
 4. **Agent** 能力让 Claude 不只是回答，还能实际操作
 
+## 概念关系全景图
+
+下面这张图展示了所有概念之间的关系：
+
+```mermaid
+graph TB
+    subgraph Core["🧠 AI 核心"]
+        LLM["LLM\n大语言模型"]
+        Token["Token\n处理单位"]
+        CW["Context Window\n上下文窗口"]
+        LLM --- Token
+        LLM --- CW
+    end
+
+    subgraph Agent["🤖 Agent 层"]
+        CC["Claude Code\nAI Agent"]
+        Tools["内置工具\nRead/Write/Bash/Git"]
+        Skills["Skills\n自定义命令"]
+        Hooks["Hooks\n自动化钩子"]
+    end
+
+    subgraph External["🌐 外部连接"]
+        MCP["MCP Servers"]
+        Figma["Figma"]
+        TG["Telegram"]
+        GH["GitHub"]
+        DB["Database"]
+    end
+
+    You["🧑 你 (Developer)"] -->|"Prompt"| CC
+    CC -->|"Powered by"| LLM
+    CC --> Tools
+    CC --> Skills
+    CC --> Hooks
+    CC -->|"Connects via"| MCP
+    MCP --> Figma
+    MCP --> TG
+    MCP --> GH
+    MCP --> DB
+```
+
 ## 小结
 
 | 概念 | 一句话解释 |
@@ -232,6 +285,9 @@ Token (思考单位)  Agent (执行能力)
 | Context Window | AI 的"工作记忆"，决定它能同时处理多少信息 |
 | Agent | 能自主执行操作的 AI 系统，不只是聊天 |
 | Prompt Engineering | 优化 AI 输入的技术，让 AI 更好地理解你的需求 |
+| MCP | 连接外部工具和服务的协议 |
+| Skills | 可扩展的自定义命令系统 |
+| Hooks | 事件驱动的自动化钩子 |
 
 理解了这些基础概念，你就能更有效地使用 Claude Code。接下来，让我们深入了解 Claude Code 本身。
 

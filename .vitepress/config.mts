@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+export default withMermaid(defineConfig({
   title: 'Learn Claude Code',
   description: 'From Zero to Hero — Master AI Development with Claude Code',
   appearance: true,
@@ -8,6 +9,8 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
   ],
+
+  mermaid: {},
 
   locales: {
     zh: {
@@ -183,4 +186,4 @@ export default defineConfig({
       copyright: '© 2026 Asher Zhou'
     }
   }
-})
+}))
