@@ -54,11 +54,23 @@ export default withMermaid(defineConfig({
               items: [
                 { text: 'CLAUDE.md', link: '/zh/features/claude-md' },
                 { text: 'Hooks 自动化', link: '/zh/features/hooks' },
-                { text: 'Skills 自定义命令', link: '/zh/features/skills' },
+                { text: 'Skills 概览', link: '/zh/features/skills' },
                 { text: 'MCP Servers', link: '/zh/features/mcp-servers' },
                 { text: 'Agent Teams', link: '/zh/features/agent-teams' },
                 { text: 'Git Worktrees', link: '/zh/features/git-worktrees' },
                 { text: 'Plan Mode', link: '/zh/features/plan-mode' },
+              ]
+            },
+            {
+              text: 'Skills 详解',
+              collapsed: false,
+              items: [
+                { text: '浏览器测试', link: '/zh/features/skills-browser' },
+                { text: 'QA 自动测试', link: '/zh/features/skills-qa' },
+                { text: '规划与设计', link: '/zh/features/skills-planning' },
+                { text: '发布与部署', link: '/zh/features/skills-shipping' },
+                { text: '安全与调试', link: '/zh/features/skills-safety' },
+                { text: 'Superpowers 插件', link: '/zh/features/skills-superpowers' },
               ]
             }
           ],
