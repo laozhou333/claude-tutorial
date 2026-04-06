@@ -1,3 +1,15 @@
+# Airbnb 设计系统
+
+::: tip 风格概述
+温暖珊瑚色 #FF385C，Cereal 字体，圆润友好，社区感
+:::
+
+::: info 使用方法
+将下方内容保存为项目根目录的 `DESIGN.md`，Claude Code 会自动按此风格生成 UI 代码。
+:::
+
+---
+
 # Design System: Airbnb
 
 ## 1. Visual Theme & Atmosphere

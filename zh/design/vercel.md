@@ -1,3 +1,15 @@
+# Vercel 设计系统
+
+::: tip 风格概述
+黑白极简，几何美学，Geist 字体家族，开发者平台标杆
+:::
+
+::: info 使用方法
+将下方内容保存为项目根目录的 `DESIGN.md`，Claude Code 会自动按此风格生成 UI 代码。
+:::
+
+---
+
 # Design System: Vercel
 
 ## 1. Visual Theme & Atmosphere

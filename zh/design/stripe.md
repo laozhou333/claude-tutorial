@@ -1,3 +1,15 @@
+# Stripe 设计系统
+
+::: tip 风格概述
+精致金融科技风，紫色主调，多层蓝色阴影，自定义 sohne-var 字体，极致细节
+:::
+
+::: info 使用方法
+将下方内容保存为项目根目录的 `DESIGN.md`，Claude Code 会自动按此风格生成 UI 代码。
+:::
+
+---
+
 # Design System: Stripe
 
 ## 1. Visual Theme & Atmosphere

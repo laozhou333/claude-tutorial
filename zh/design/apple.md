@@ -1,3 +1,15 @@
+# Apple 设计系统
+
+::: tip 风格概述
+极致留白，SF Pro 字体，精密动效，产品展示大师
+:::
+
+::: info 使用方法
+将下方内容保存为项目根目录的 `DESIGN.md`，Claude Code 会自动按此风格生成 UI 代码。
+:::
+
+---
+
 # Design System: Apple
 
 ## 1. Visual Theme & Atmosphere
