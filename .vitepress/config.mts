@@ -24,6 +24,7 @@ export default withMermaid(defineConfig({
           { text: '核心功能', link: '/zh/features/claude-md' },
           { text: '实战教程', link: '/zh/tutorials/github-review' },
           { text: '进阶', link: '/zh/advanced/settings-deep-dive' },
+          { text: '设计资源库', link: '/zh/design/index' },
         ],
         sidebar: {
           '/zh/guide/': [
@@ -94,6 +95,42 @@ export default withMermaid(defineConfig({
                 { text: '自定义 Skills', link: '/zh/advanced/custom-skills' },
                 { text: '性能优化', link: '/zh/advanced/performance-tips' },
                 { text: '常见问题', link: '/zh/advanced/troubleshooting' },
+              ]
+            }
+          ],
+          '/zh/design/': [
+            {
+              text: '设计资源库',
+              items: [
+                { text: '概览', link: '/zh/design/index' },
+                { text: '如何使用', link: '/zh/design/how-to-use' },
+              ]
+            },
+            {
+              text: '热门设计系统',
+              collapsed: false,
+              items: [
+                { text: 'Stripe', link: '/zh/design/stripe' },
+                { text: 'Linear', link: '/zh/design/linear-app' },
+                { text: 'Vercel', link: '/zh/design/vercel' },
+                { text: 'Notion', link: '/zh/design/notion' },
+                { text: 'Supabase', link: '/zh/design/supabase' },
+                { text: 'Spotify', link: '/zh/design/spotify' },
+                { text: 'Apple', link: '/zh/design/apple' },
+                { text: 'Airbnb', link: '/zh/design/airbnb' },
+              ]
+            },
+            {
+              text: '更多设计系统',
+              collapsed: true,
+              items: [
+                { text: 'Claude', link: '/zh/design/claude' },
+                { text: 'Cursor', link: '/zh/design/cursor' },
+                { text: 'Figma', link: '/zh/design/figma' },
+                { text: 'SpaceX', link: '/zh/design/spacex' },
+                { text: 'BMW', link: '/zh/design/bmw' },
+                { text: 'Uber', link: '/zh/design/uber' },
+                { text: '查看全部 54 个 →', link: '/zh/design/all' },
               ]
             }
           ],
