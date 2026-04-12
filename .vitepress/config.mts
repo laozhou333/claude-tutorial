@@ -13,7 +13,7 @@ export default withMermaid(defineConfig({
   mermaid: {},
 
   locales: {
-    root: {
+    zh: {
       label: '中文',
       lang: 'zh-CN',
       link: '/zh/',
