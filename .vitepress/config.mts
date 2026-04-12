@@ -139,7 +139,7 @@ export default withMermaid(defineConfig({
         docFooter: { prev: '上一篇', next: '下一篇' },
         lastUpdated: { text: '最后更新' },
         editLink: {
-          pattern: 'https://github.com/laozhou333/claude-tutorial/edit/main/:path',
+          pattern: 'https://github.com/asher-btc/claude-tutorial/edit/main/:path',
           text: '在 GitHub 上编辑此页'
         },
       }
@@ -218,7 +218,7 @@ export default withMermaid(defineConfig({
           ],
         },
         editLink: {
-          pattern: 'https://github.com/laozhou333/claude-tutorial/edit/main/:path',
+          pattern: 'https://github.com/asher-btc/claude-tutorial/edit/main/:path',
           text: 'Edit this page on GitHub'
         },
       }
@@ -228,7 +228,7 @@ export default withMermaid(defineConfig({
   themeConfig: {
     search: { provider: 'local' },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/laozhou333/claude-tutorial' },
+      { icon: 'github', link: 'https://github.com/asher-btc/claude-tutorial' },
     ],
     footer: {
       message: 'Made with Claude Code by Asher',
