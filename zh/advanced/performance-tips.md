@@ -67,9 +67,10 @@ claude --continue
 
 | 模型 | 特点 | 适合场景 |
 |------|------|---------|
-| Sonnet | 均衡，默认选择 | 日常编码、文件编辑、一般问答 |
-| Opus | 最强推理 | 复杂架构设计、疑难 bug、深度分析 |
 | Haiku | 最快速度 | 简单问答、格式转换、批量小修改 |
+| Sonnet | 均衡，默认选择 | 日常编码、文件编辑、一般问答 |
+| Opus 4.7 | 最强推理 | 复杂架构设计、疑难 bug、深度分析 |
+| Opus 4.7 (1M) | 百万 context | 超大仓库全局重构、长会话 |
 
 ### /model — 切换模型
 
@@ -79,6 +80,9 @@ claude --continue
 
 # Claude 会显示可用模型列表
 # 选择你需要的模型
+
+# 启用 Auto Mode（让 Claude 自动选）
+/model auto
 ```
 
 ### --effort 标志
@@ -91,6 +95,10 @@ claude --effort low -p "这个文件做什么的？"
 
 # 高 effort——深度分析
 claude --effort high -p "分析这个系统的安全隐患"
+
+# Opus 4.7 独占的最高两档
+claude --model claude-opus-4-7 --effort xhigh
+claude --model claude-opus-4-7 --effort max
 ```
 
 | Effort | 速度 | 质量 | 适合 |
@@ -98,6 +106,10 @@ claude --effort high -p "分析这个系统的安全隐患"
 | `low` | 快 | 一般 | 简单查询、代码解释 |
 | `medium` | 中等 | 好 | 默认，日常开发 |
 | `high` | 慢 | 最佳 | 复杂推理、架构设计 |
+| `xhigh` | 更慢 | 更佳 | 大型重构（仅 Opus 4.7） |
+| `max` | 最慢 | 顶级 | 极限难题（仅 Opus 4.7） |
+
+详见 [Effort 等级与 Opus 4.7](/zh/guide/effort-levels)。
 
 ## 速度优化
 
@@ -163,6 +175,53 @@ claude --max-budget-usd 5
 claude --max-budget-usd 2 --max-turns 20 -p "审查这个 PR"
 ```
 
+### Prompt Cache：v2.1 最大的省钱杠杆
+
+Claude Code 会把系统提示、CLAUDE.md、已读过的文件等内容**缓存**在 API 侧。下一次请求如果这些内容相同，会按缓存价计费（约 **10%** 的输入价）。
+
+默认 TTL（存活时间）是 **5 分钟**。从 v2.1.108 起，你可以开启 **1 小时 TTL**：
+
+```bash
+# 在 ~/.zshrc 或 ~/.bashrc
+export ENABLE_PROMPT_CACHING_1H=1
+```
+
+支持的后端：
+- ✅ API Key（Anthropic 直连）
+- ✅ AWS Bedrock
+- ✅ Google Cloud Vertex AI
+- ✅ Microsoft Foundry
+
+#### 什么时候开 1h TTL 能省钱？
+
+| 场景 | 5 分钟 TTL | 1 小时 TTL | 建议 |
+|------|-----------|-----------|------|
+| 长会话（>10 分钟思考间隔） | 每次都 miss | 命中缓存 | ✅ 开 1h |
+| 来回切会话（/resume） | miss | 命中 | ✅ 开 1h |
+| 短促 CI/CD 任务（<5 分钟） | 本来就命中 | 无区别 | 5min 即可 |
+| 批量脚本（密集调用） | 命中 | 命中 | 都行，5min 更稳 |
+| 大型 CLAUDE.md 项目 | 反复重算 | 算一次 | ✅ 开 1h |
+
+::: tip 实测省钱案例
+在一个 `CLAUDE.md` 有 8000 token 的项目里，开 1h TTL 后日均 API 费用降了约 35%。核心原因是跨会话的重复读取全部命中缓存。
+:::
+
+#### 强制 5 分钟（默认）
+
+有些场景不希望用 1h 缓存（比如系统提示频繁变化的测试环境）：
+
+```bash
+export FORCE_PROMPT_CACHING_5M=1
+```
+
+#### 完全禁用（不推荐）
+
+```bash
+export DISABLE_PROMPT_CACHING=1  # 仅排查问题时使用
+```
+
+启动时会有警告提示——这通常会让成本翻倍甚至更多。
+
 ### Token 高效提示
 
 减少不必要的 token 消耗：
@@ -179,6 +238,8 @@ claude --max-budget-usd 2 --max-turns 20 -p "审查这个 PR"
 3. **精准的提示词** — 减少来回澄清
 4. **适时开新会话** — 避免拖着巨大的上下文做简单任务
 5. **选对模型** — 简单任务用 Haiku，复杂任务才用 Opus
+6. **开启 1h Prompt Cache** — 长会话复用缓存
+7. **合理使用 effort** — 不是所有任务都需要 `high` 或 `max`
 
 ### 成本估算参考
 
@@ -226,10 +287,10 @@ claude -p "给 src/services/ 补充单元测试"
 
 | 优化方向 | 关键操作 |
 |---------|---------|
-| 上下文 | `/compact`、适时新会话、CLAUDE.md 沉淀 |
-| 模型 | 按任务选模型、调整 effort |
-| 速度 | @ 引用、精准提示、`--max-turns` |
-| 成本 | `--max-budget-usd`、`/cost` 监控、省 token 技巧 |
+| 上下文 | `/compact`、`/recap`、适时新会话、CLAUDE.md 沉淀 |
+| 模型 | 按任务选模型、`/model auto`、合理调 effort |
+| 速度 | @ 引用、精准提示、`--max-turns`、`/tui fullscreen` |
+| 成本 | `--max-budget-usd`、`ENABLE_PROMPT_CACHING_1H`、`/cost` 监控 |
 | 并行 | 多终端、Git Worktrees |
 
 ---

@@ -54,6 +54,11 @@ graph TD
 | `low` | 快速回答，减少深度思考 |
 | `medium` | 默认，平衡速度和质量 |
 | `high` | 深度推理，适合复杂问题 |
+| `xhigh` | 更深推理（仅 Opus 4.7） |
+| `max` | 最深推理（仅 Opus 4.7，成本显著更高） |
+| `auto` | 交由 Claude 根据任务复杂度自动决定 |
+
+完整介绍见 [Effort 等级与 Opus 4.7](/zh/guide/effort-levels)。
 
 ### permissions — 权限配置
 
@@ -177,11 +182,21 @@ Hooks 允许你在特定事件发生时自动执行脚本：
 {
   "sandbox": {
     "enabled": true,
-    "network": true,
+    "network": {
+      "allowed": true,
+      "allowedDomains": ["*.github.com", "npmjs.org"],
+      "deniedDomains": ["*.tracking.com", "evil.example.com"]
+    },
     "writePaths": ["/tmp", "./dist", "./build"]
   }
 }
 ```
+
+**`network.deniedDomains`（v2.1.113+）：** 即使 `allowedDomains` 使用了通配符，`deniedDomains` 也会优先阻止匹配的域名。适合白名单整个域下、但屏蔽少数敏感子域名的场景。
+
+::: tip 企业 TLS 代理
+v2.1.113 起，Claude Code 默认信任 **操作系统 CA 证书库**，企业内网的 TLS 拦截代理无需额外配置。如果要回到只信任 bundled CA，设置环境变量 `CLAUDE_CODE_CERT_STORE=bundled`。
+:::
 
 ### statusLine — 状态栏自定义
 
@@ -192,6 +207,38 @@ Hooks 允许你在特定事件发生时自动执行脚本：
   "statusLine": "🚀 {{model}} | {{tokens}} tokens | {{cost}}"
 }
 ```
+
+### tui / autoScrollEnabled — 终端体验
+
+v2.1.110 新增的渲染相关配置：
+
+```json
+{
+  "tui": "fullscreen",
+  "autoScrollEnabled": false
+}
+```
+
+| 配置项 | 可选值 | 说明 |
+|--------|-------|------|
+| `tui` | `inline` / `fullscreen` | 终端渲染模式（见 [会话体验优化](/zh/features/session-experience)） |
+| `autoScrollEnabled` | `true` / `false` | 全屏模式下是否跟随最新内容自动滚动 |
+
+### sessionRecap — 会话回顾
+
+控制 `/recap` 功能（v2.1.108+）：
+
+```json
+{
+  "sessionRecap": "on"
+}
+```
+
+| 值 | 说明 |
+|----|------|
+| `on` | 启用（默认） |
+| `off` | 完全禁用 |
+| `manual` | 禁用自动，只响应手动 `/recap` |
 
 ### enabledPlugins — 启用的插件
 
@@ -214,20 +261,37 @@ Hooks 允许你在特定事件发生时自动执行脚本：
 | 变量 | 说明 |
 |------|------|
 | `ANTHROPIC_API_KEY` | Anthropic API 密钥 |
-| `CLAUDE_CODE_NO_FLICKER` | 设为 `1` 减少终端闪烁 |
+| `CLAUDE_CODE_NO_FLICKER` | 设为 `1` 启用无闪烁渲染 |
 | `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | 限制单次输出的最大 token 数 |
 | `CLAUDE_CODE_USE_BEDROCK` | 使用 AWS Bedrock 作为后端 |
 | `CLAUDE_CODE_USE_VERTEX` | 使用 Google Vertex AI 作为后端 |
+| `CLAUDE_CODE_USE_POWERSHELL_TOOL` | 启用 PowerShell 工具（Windows 默认 / Linux/macOS 需 `pwsh`） |
+| `CLAUDE_CODE_CERT_STORE` | `system`（默认）或 `bundled`（只信任内置 CA） |
+| `CLAUDE_CODE_ENABLE_AWAY_SUMMARY` | 强制开关 `/recap` 功能（`0` 禁用 / `1` 启用） |
+| `ENABLE_PROMPT_CACHING_1H` | 设为 `1` 启用 1 小时 Prompt Cache TTL |
+| `FORCE_PROMPT_CACHING_5M` | 强制 5 分钟 TTL（默认） |
+| `CLAUDE_CONFIG_DIR` | 自定义 `settings.json` 所在目录 |
+| `CLAUDE_ENV_FILE` | 启动时加载的额外环境变量文件（如 `~/.zprofile`） |
 | `HTTPS_PROXY` | HTTP 代理地址 |
 
 ```bash
 # 在 shell 配置中设置
 export ANTHROPIC_API_KEY="sk-ant-..."
 export CLAUDE_CODE_NO_FLICKER=1
+export ENABLE_PROMPT_CACHING_1H=1
 
 # 或在启动时临时设置
 ANTHROPIC_API_KEY="sk-ant-..." claude
 ```
+
+::: tip 全套推荐环境变量
+放进 `~/.zshrc` 一次配齐：
+```bash
+export CLAUDE_CODE_NO_FLICKER=1          # 无闪烁
+export ENABLE_PROMPT_CACHING_1H=1        # 1h 缓存
+export CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1 # /recap
+```
+:::
 
 ## 实战配置示例
 

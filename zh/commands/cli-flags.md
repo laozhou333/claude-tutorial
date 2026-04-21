@@ -105,8 +105,9 @@ echo "$result" | jq '.result'
 
 | 参数 | 缩写 | 说明 | 示例 |
 |------|------|------|------|
-| `--model` | - | 指定使用的模型 | `claude --model claude-sonnet-4-20250514` |
-| `--effort` | - | 设置推理努力程度：`low`/`medium`/`high` | `claude --effort high` |
+| `--model` | - | 指定使用的模型，或传 `auto` 启用 Auto Mode | `claude --model claude-opus-4-7` |
+| `--effort` | - | 设置推理努力程度：`low`/`medium`/`high`/`xhigh`/`max`/`auto` | `claude --effort xhigh` |
+| `--enable-auto-mode` | - | 启用 Auto Mode（Max 订阅 v2.1.115 起无需此参数） | `claude --enable-auto-mode` |
 | `--fallback-model` | - | 主模型不可用时的备用模型 | `claude --fallback-model claude-sonnet-4-20250514` |
 | `--max-turns` | - | 限制 agentic 循环的最大轮数 | `claude -p --max-turns 10 "重构这个模块"` |
 | `--max-budget-usd` | - | 设置单次会话的最大预算（美元） | `claude --max-budget-usd 5.00` |
@@ -118,10 +119,19 @@ echo "$result" | jq '.result'
 claude -p --max-budget-usd 2.00 --max-turns 20 "优化整个项目的类型定义"
 ```
 
-**使用高性能模型进行复杂推理：**
+**使用 Opus 4.7 + xhigh 处理复杂重构：**
 ```bash
-claude --model claude-opus-4-20250514 --effort high
+claude --model claude-opus-4-7 --effort xhigh
 ```
+
+**启用 Auto Mode（Pro 及以下订阅）：**
+```bash
+claude --enable-auto-mode
+```
+
+::: info xhigh / max 仅限 Opus 4.7
+`xhigh` 和 `max` effort 等级只在 Opus 4.7 上生效，其他模型会回退到 `high`。详见 [Effort 等级与 Opus 4.7](/zh/guide/effort-levels)。
+:::
 
 :::tip 费用控制
 在自动化脚本中始终设置 `--max-budget-usd` 和 `--max-turns`，防止任务失控导致高额费用。
@@ -204,6 +214,33 @@ Git worktree 和 tmux 集成。
 
 :::tip Worktree 工作流
 `--worktree` 会自动创建一个 Git worktree，在独立的分支上工作，不影响主分支。非常适合并行处理多个任务。
+:::
+
+## 会话传送
+
+在不同会话 / 分支 / 工作树之间切换和继承上下文。
+
+| 参数 | 缩写 | 说明 | 示例 |
+|------|------|------|------|
+| `--teleport` | - | 把另一个会话的上下文"传送"到当前会话 | `claude --teleport abc123` |
+| `--branch` | - | 从当前会话创建分支会话（隔离后续改动） | `claude --branch` |
+| `--agent` | - | 以指定 agent 身份启动（主线程 agent 模式） | `claude --agent explorer` |
+
+**典型场景：**
+
+```bash
+# 从云端 Ultraplan 会话"传送"规划到本地继续执行
+claude --teleport ultraplan-session-xyz
+
+# 从当前实验性会话分裂一个分支，稳定线继续，这条分支用来试错
+claude --branch
+
+# 以特定 agent 身份运行（配合 .claude/agents/*.md）
+claude --agent code-reviewer -p "review these changes"
+```
+
+::: info --branch vs --fork-session
+`--fork-session` 复制整个上下文并完全独立；`--branch` 保持与父会话的逻辑关联（可追踪来源）。日常试验推荐 `--branch`。
 :::
 
 ## 调试参数
@@ -294,6 +331,58 @@ claude \
   --channels telegram
 ```
 
+## 环境变量速查
+
+除了命令行参数，Claude Code 还有一批环境变量用于持久化配置。
+
+### 渲染 / 交互
+
+| 变量 | 作用 | 示例 |
+|------|------|------|
+| `CLAUDE_CODE_NO_FLICKER` | 启用无闪烁渲染（全屏模式默认开） | `export CLAUDE_CODE_NO_FLICKER=1` |
+| `CLAUDE_CODE_ENABLE_AWAY_SUMMARY` | 强制开关 `/recap` 功能 | `=0` 禁用 / `=1` 强制启用 |
+| `CLAUDE_CODE_DISABLE_TERMINAL_TITLE` | 不修改终端窗口标题 | `=1` 禁用 |
+| `NO_COLOR` | 禁用所有 ANSI 颜色 | `=1` |
+
+### 性能 / 缓存
+
+| 变量 | 作用 | 示例 |
+|------|------|------|
+| `ENABLE_PROMPT_CACHING_1H` | 开启 1 小时 Prompt Cache TTL（API Key / Bedrock / Vertex / Foundry） | `=1` |
+| `FORCE_PROMPT_CACHING_5M` | 强制 5 分钟 TTL（默认值） | `=1` |
+| `DISABLE_PROMPT_CACHING` | 完全禁用 Prompt Cache（不推荐） | `=1` |
+| `API_TIMEOUT_MS` | 自定义 API 请求超时 | `=300000` |
+
+### Windows / PowerShell
+
+| 变量 | 作用 | 示例 |
+|------|------|------|
+| `CLAUDE_CODE_USE_POWERSHELL_TOOL` | 启用 PowerShell 工具（需 `pwsh` 在 PATH） | `=1` |
+
+### 企业 / 安全
+
+| 变量 | 作用 | 示例 |
+|------|------|------|
+| `CLAUDE_CODE_CERT_STORE` | 证书来源：`system`（默认，含 OS CA）或 `bundled` | `=bundled` |
+| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | 禁用非必要网络流量（自动标题等） | `=1` |
+| `DISABLE_TELEMETRY` | 禁用遥测 | `=1` |
+
+### 配置文件路径
+
+| 变量 | 作用 |
+|------|------|
+| `CLAUDE_CONFIG_DIR` | 自定义 `settings.json` 目录（替代 `~/.claude/`） |
+| `CLAUDE_ENV_FILE` | 启动时读取额外环境文件（如 `~/.zprofile`） |
+
+::: tip 推荐加到 shell 配置
+最值得加到 `~/.zshrc` 或 `~/.bashrc` 的三个：
+```bash
+export CLAUDE_CODE_NO_FLICKER=1        # 无闪烁渲染
+export ENABLE_PROMPT_CACHING_1H=1      # 1 小时缓存，长会话省钱
+export CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1  # 强制开启 Recap
+```
+:::
+
 ## 快速参考
 
 | 场景 | 推荐参数 |
@@ -301,7 +390,10 @@ claude \
 | 脚本/CI 中使用 | `-p --output-format json` |
 | 恢复上次会话 | `-c` |
 | 控制费用 | `--max-budget-usd --max-turns` |
-| 复杂推理任务 | `--model opus --effort high` |
+| 复杂推理任务 | `--model claude-opus-4-7 --effort xhigh` |
+| Auto Mode（Pro 订阅） | `--enable-auto-mode` |
 | 多目录项目 | `--add-dir` |
 | 排查问题 | `--debug` |
 | 自动化无人值守 | `-p --dangerously-skip-permissions` |
+| 长会话省钱 | `ENABLE_PROMPT_CACHING_1H=1` |
+| 无闪烁渲染 | `CLAUDE_CODE_NO_FLICKER=1` |
